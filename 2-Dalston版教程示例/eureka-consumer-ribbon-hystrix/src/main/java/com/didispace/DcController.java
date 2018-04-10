@@ -1,9 +1,8 @@
 package com.didispace;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.ribbon.proxy.annotation.Hystrix;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +30,23 @@ public class DcController {
         @Autowired
         RestTemplate restTemplate;
 
-        @HystrixCommand(fallbackMethod = "fallback")
+        @HystrixCommand(fallbackMethod = "fallback",
+                defaultFallback = "defaultFallback",
+                groupKey="ConsumerService", commandKey = "consumer",
+                commandProperties  ={
+                @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "20"),
+                @HystrixProperty(name = "execution.isolation.semaphore.maxConcurrentRequests", value = "2")
+        })
         public String consumer() {
             return restTemplate.getForObject("http://eureka-client/dc", String.class);
         }
 
         public String fallback() {
             return "fallbck";
+        }
+
+        public String defaultFallback() {
+            return "defaultFallback";
         }
 
     }

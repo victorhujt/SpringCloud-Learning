@@ -4,9 +4,9 @@ spring:
   cloud:
     config:
       uri: http://localhost:1201/
-      profile: default
+      profile: dev
       label: master
 
 server:
-  port: 2001
+  port: 2010
 

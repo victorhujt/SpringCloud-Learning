@@ -20,8 +20,11 @@ public class TraceApplication {
 
 	@RequestMapping(value = "/trace-2", method = RequestMethod.GET)
 	public String trace(HttpServletRequest request) {
-		logger.info("===<call trace-2, TraceId={}, SpanId={}>===",
-				request.getHeader("X-B3-TraceId"), request.getHeader("X-B3-SpanId"));
+		logger.info("===<call trace-2, TraceId={}, SpanId={},ParentSpanId={},Sampled={},SpanName={}>===",
+				request.getHeader("X-B3-TraceId"), request.getHeader("X-B3-SpanId"),request.getHeader("X-B3-ParentSpanId"),
+				request.getHeader("X-B3-Sampled"),
+				request.getHeader("X-Span-Name")
+				);
 		return "Trace";
 	}
 

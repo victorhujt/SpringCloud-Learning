@@ -18,12 +18,12 @@ public class SinkApplicationTests {
 
 	@Test
 	public void sinkSenderTester() {
-		sinkSender.output().send(MessageBuilder.withPayload("produce a message ：http://blog.didispace.com").build());
+		sinkSender.output().send(MessageBuilder.withPayload("produce a message ：胡金涛真帅").build());
 	}
 
 	public interface SinkSender {
 
-		String OUTPUT = "input";
+		String OUTPUT = "greetings";
 
 		@Output(SinkSender.OUTPUT)
 		MessageChannel output();
